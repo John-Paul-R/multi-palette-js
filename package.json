@@ -1,0 +1,33 @@
+{
+  "name": "multi-palette-js",
+  "version": "1.0.0",
+  "description": "CSS/JS color palette manager for websites.",
+  "main": "dist/multi-palette.cjs.js",
+  "module": "dist/multi-palette.esm.js",
+  "browser": "dist/multi-palette.umd.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/John-Paul-R/multi-palette-js.git"
+  },
+  "keywords": [
+    "color",
+    "palette",
+    "css",
+    "web"
+  ],
+  "author": "John Paul Rutigliano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/John-Paul-R/multi-palette-js/issues"
+  },
+  "homepage": "https://github.com/John-Paul-R/multi-palette-js#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "rollup": "^2.46.0"
+  }
+}
