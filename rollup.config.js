@@ -9,27 +9,20 @@ export default [
 	{
 		input: 'src/multi-palette.js',
 		output: {
-			name: 'multi_palette',
-			file: pkg.browser,
+			name: 'mpal',
+			file: "src/multi-palette.js",
 			format: 'iife'
 		},
-		plugins: [
-			resolve(), // so Rollup can find `ms`
-			commonjs() // so Rollup can convert `ms` to an ES module
-		]
+
 	},
     {
 		input: 'src/multi-palette.js',
 		output: {
-			name: 'multi_palette',
+			name: 'mpal',
 			file: pkg.browser,
 			format: 'iife',
-            plugins: [terser({module: true})] 
+            plugins: [terser({module: false, mangle: true})] 
 		},
-		plugins: [
-			// resolve(), // so Rollup can find `ms`
-			// commonjs(), // so Rollup can convert `ms` to an ES module,
-		]
 	},
 
 
@@ -49,14 +42,10 @@ export default [
 	},
     {
 		input: 'src/multi-palette.js',
-        plugins: [
-            // terser()
-            // terser({module: true})
-        ],
 		// external: ['ms'],
 		output: [
-			{ file: pkg.main, format: 'cjs', plugins: []  },
-			{ file: pkg.module, format: 'es', plugins: []  }
+			{ file: pkg.main, format: 'cjs' },
+			{ file: pkg.module, format: 'es' }
 		]
 	},
 ];
