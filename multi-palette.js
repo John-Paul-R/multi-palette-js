@@ -1,8 +1,4 @@
 
-var buttonElements;
-var paletteIndex;
-const STORAGE_KEY = 'selectedPaletteIndex';
-
 /*! Shade/blend hex colors (for more info, see: https://github.com/PimpTrizkit/PJs/wiki/12.-Shade,-Blend-and-Convert-a-Web-Color-(pSBC.js) )*/
 const pSBCr=(d)=>{
     let i=parseInt,m=Math.round;
@@ -30,9 +26,19 @@ const pSBC=(p,c0,c1,l)=>{
     if(h)return"rgb"+(f?"a(":"(")+r+","+g+","+b+(f?","+m(a*1000)/1000:"")+")";
     else return"#"+(4294967296+r*16777216+g*65536+b*256+(f?m(a*255):0)).toString(16).slice(1,f?undefined:-2)
 }
+
+var mpal = {};
+(function(main) {
+const STORAGE_KEY = 'selectedPaletteIndex';
+
+var buttonElements;
+var paletteIndex;
+var currentPalette;
+var changeFuncs = [];
+
 const RGB_Log_Shade=(p,c)=>{
-	var i=parseInt,r=Math.round,[a,b,c,d]=c.split(","),P=p<0,t=P?0:p*255**2,P=P?1+p:1-p;
-	return"rgb"+(d?"a(":"(")+r((P*i(a[3]=="a"?a.slice(5):a.slice(4))**2+t)**0.5)+","+r((P*i(b)**2+t)**0.5)+","+r((P*i(c)**2+t)**0.5)+(d?","+d:")");
+    var i=parseInt,r=Math.round,[a,b,c,d]=c.split(","),P=p<0,t=P?0:p*255**2,P=P?1+p:1-p;
+    return"rgb"+(d?"a(":"(")+r((P*i(a[3]=="a"?a.slice(5):a.slice(4))**2+t)**0.5)+","+r((P*i(b)**2+t)**0.5)+","+r((P*i(c)**2+t)**0.5)+(d?","+d:")");
 }
 const brightness=(c)=>{
     let f = pSBCr(c);
@@ -104,10 +110,7 @@ function bindPaletteSwapButtons(btnElements) {
         buttonElements[i].addEventListener('click', swapPalette);
     }
 }
-bindPaletteSwapButtons();
-loadStoredPalette();
-initStyleSheet();
-var currentPalette;
+
 function loadStoredPalette() {
     let stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored) {
@@ -124,7 +127,6 @@ function loadStoredPalette() {
     }
     displayPalette(paletteIndex);
 }
-var changeFuncs = [];
 
 function swapPalette() {
     paletteIndex +=1;
@@ -137,9 +139,11 @@ function swapPalette() {
         func(currentPalette);
     }
 }
+
 function onPaletteChange(func) {
     changeFuncs.push(func);
 }
+
 function displayPalette(paletteID) {
     const style = document.documentElement.style;
     let p = new ColorPalette(colorPalettes[paletteID]);
@@ -180,6 +184,7 @@ function createStyleSheet(id, media) {
     document.head.appendChild(el);
     return el.sheet;
 }
+
 function initStyleSheet() {
     const sheet = createStyleSheet('palette_light_dark');
     sheet.insertRule(
@@ -193,6 +198,7 @@ function initStyleSheet() {
         filter: invert(100%);
     }`);
 }
+
 /**
  * 
  * @param {ColorPalette} newPalette 
@@ -215,4 +221,14 @@ function recolorImages(newPalette) {
     }
 }
 
+bindPaletteSwapButtons();
+loadStoredPalette();
+initStyleSheet();
 document.addEventListener('DOMContentLoaded', () => {recolorImages(currentPalette);});
+
+
+main.onPaletteChange = onPaletteChange;
+main.currentPalette = currentPalette;
+
+return main;
+})(mpal);
