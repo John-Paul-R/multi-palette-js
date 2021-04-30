@@ -10,7 +10,7 @@ export default [
 		input: 'src/multi-palette.js',
 		output: {
 			name: 'mpal',
-			file: "src/multi-palette.js",
+			file: "dist/multi-palette.js",
 			format: 'iife'
 		},
 
