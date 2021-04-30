@@ -27,8 +27,6 @@ const pSBC=(p,c0,c1,l)=>{
     else return"#"+(4294967296+r*16777216+g*65536+b*256+(f?m(a*255):0)).toString(16).slice(1,f?undefined:-2)
 }
 
-var mpal = {};
-(function(main) {
 const STORAGE_KEY = 'selectedPaletteIndex';
 
 var buttonElements;
@@ -229,9 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-main.onPaletteChange = onPaletteChange;
-main.currentPalette = currentPalette;
-main.registerPalette = (paletteName, base, element1, accent1, accent2, text, textInverse) => colorPalettes.push(new BasePalette(paletteName, base, element1, accent1, accent2, text, textInverse))
+const registerPalette = (paletteName, base, element1, accent1, accent2, text, textInverse) => colorPalettes.push(new BasePalette(paletteName, base, element1, accent1, accent2, text, textInverse))
 
-return main;
-})(mpal);
+export { onPaletteChange, currentPalette, registerPalette };
