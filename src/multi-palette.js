@@ -42,6 +42,30 @@ const brightness=(c)=>{
     let f = pSBCr(c);
     return Math.max(f.r, f.g, f.b)/255;
 }
+function invertColor(hex) {
+    if (hex.indexOf('#') === 0) {
+        hex = hex.slice(1);
+    }
+    // convert 3-digit hex to 6-digits.
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) {
+        throw new Error('Invalid HEX color.');
+    }
+    // invert color components
+    var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
+        g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
+        b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
+    // pad each with zeros and return
+    return '#' + padZero(r) + padZero(g) + padZero(b);
+}
+
+function padZero(str, len) {
+    len = len || 2;
+    var zeros = new Array(len).join('0');
+    return (zeros + str).slice(-len);
+}
 const colorVariants=(c, varientPercent=0.15)=>{
     const out = [];
     out.push(c);
@@ -58,17 +82,13 @@ const colorVariants=(c, varientPercent=0.15)=>{
 }
 
 class BasePalette {
-    constructor (paletteName, base, element1, accent1, accent2, text, textInverse) {
+    constructor (paletteName, base, element1, accent1, accent2, text) {
         this.paletteName = paletteName;
         this.base = base;
         this.element1 = element1;
-        this.element1_1 = pSBC(0.15, element1, false, true);
-        this.element1_2 = pSBC(-0.15, element1, false, true);
-
         this.accent1 = accent1;
         this.accent2 = accent2;
         this.text = text;
-        this.textInverse = textInverse;
     }
 }
 class ColorPalette {
@@ -81,9 +101,9 @@ class ColorPalette {
 
         this.accent1 = colorVariants(basePalette.accent1);
         this.accent2 = colorVariants(basePalette.accent2, 0.2);
+        
         this.text = colorVariants(basePalette.text);
-
-        this.textInverse = basePalette.textInverse;
+        this.textInverse = invertColor(basePalette.text);
     }
 }
 var colorPalettes = [//Name     , base     , element-1, accent-1 , accent-2 , text     , text-inverse
@@ -149,16 +169,15 @@ function displayPalette(paletteID) {
     style.setProperty('--color-base-1',         p.base[1]);
     style.setProperty('--color-base-2',         p.base[2]);
     style.setProperty('--color-background',     p.background);
-    style.setProperty('--color-element-1',      p.element1[0]);
-    style.setProperty('--color-element-1-1',    p.element1[1]);
-    style.setProperty('--color-element-1-2',    p.element1[2]);
+    style.setProperty('--color-element',      p.element1[0]);
+    style.setProperty('--color-element-1',    p.element1[1]);
+    style.setProperty('--color-element-2',    p.element1[2]);
     style.setProperty('--color-accent-1',       p.accent1[0]);
     style.setProperty('--color-accent-1-1',     p.accent1[1]);
     style.setProperty('--color-accent-1-2',     p.accent1[2]);
     style.setProperty('--color-accent-2',       p.accent2[0]);
     style.setProperty('--color-accent-2-1',     p.accent2[1]);
     style.setProperty('--color-accent-2-2',     p.accent2[2]);
-    style.setProperty('--color-inverse',        p.inverse);
     style.setProperty('--color-text',           p.text[0]);
     style.setProperty('--color-text-1',         p.text[1]);
     style.setProperty('--color-text-2',         p.text[2]);
