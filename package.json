@@ -1,6 +1,6 @@
 {
   "name": "multi-palette-js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "CSS/JS color palette manager for websites.",
   "main": "dist/multi-palette.cjs.js",
   "module": "dist/multi-palette.esm.js",
