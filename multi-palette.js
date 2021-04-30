@@ -221,14 +221,17 @@ function recolorImages(newPalette) {
     }
 }
 
-bindPaletteSwapButtons();
 loadStoredPalette();
 initStyleSheet();
-document.addEventListener('DOMContentLoaded', () => {recolorImages(currentPalette);});
+document.addEventListener('DOMContentLoaded', () => {
+    recolorImages(currentPalette);
+    bindPaletteSwapButtons();
+});
 
 
 main.onPaletteChange = onPaletteChange;
 main.currentPalette = currentPalette;
+main.registerPalette = (paletteName, base, element1, accent1, accent2, text, textInverse) => colorPalettes.push(new BasePalette(paletteName, base, element1, accent1, accent2, text, textInverse))
 
 return main;
 })(mpal);
