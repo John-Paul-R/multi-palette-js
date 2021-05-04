@@ -109,11 +109,11 @@ class ColorPalette {
 var colorPalettes = [//Name     , base     , element-1, accent-1 , accent-2 , text     , text-inverse
     //  new ColorPalette('Light'   , '#fafafa', '#e0e0e0', '#aaaaaa', '#888888', '#353535', '#d0d0d0')
     new BasePalette('LYellow' , '#f6f4e6', '#f1eacb', '#f5d232', '#41444b', '#000000', '#ffffff'),
-    new BasePalette('Dark'    , '#252525', '#353637', '#a50d0d', '#888888', '#f0f0f0', '#414141'),
-    new BasePalette('DarkBY'  , '#000000', '#14213d', '#fca311', '#e5e5e5', '#ffffff', '#000000'),
+    new BasePalette('Dark'    , '#252525', '#333333', '#a81f1f', '#888888', '#f0f0f0', '#414141'),
+    new BasePalette('DarkBY'  , '#000000', '#14213d', '#fca311', '#e5e5e5', '#ffffff', '#000000'), //accent #eda126'
     new BasePalette('DBPink'  , '#1a1a2e', '#16213e', '#e94560', '#0f3460', '#ffffff', '#000000'),
-    new BasePalette('DWarm'   , '#321f28', '#734046', '#e79e4f', '#a05344', '#ffffff', '#000000'),
-    new BasePalette('LBlue'   , '#eeeeee', '#d0e0e6', '#97cee2', '#373a40', '#000000', '#ffffff'),
+    new BasePalette('DWarm'   , '#321f28', '#734046', '#e28f36', '#a05344', '#ffffff', '#000000'),
+    new BasePalette('LBlue'   , '#eeeeee', '#d0e0e6', '#64c5e8', '#373a40', '#000000', '#ffffff'),
     new BasePalette('DPinkG'  , '#382933', '#3b5249', '#e94560', '#0f3460', '#ffffff', '#000000'),
 
 ]; //todo load this from external file? or from online library of available palettes?
@@ -248,4 +248,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const registerPalette = (paletteName, base, element1, accent1, accent2, text, textInverse) => colorPalettes.push(new BasePalette(paletteName, base, element1, accent1, accent2, text, textInverse))
 
-export { onPaletteChange, currentPalette, registerPalette };
+// export { onPaletteChange, currentPalette, registerPalette };
