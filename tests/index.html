@@ -109,7 +109,13 @@
         #colors_container > * > *::before {
             content: "Lorem Ipsum";
         }
-
+        .accent-1-text {
+            color: var(--color-accent-1);
+        }
+        .accent-2-text {
+            color: var(--color-accent-2);
+        }
+        
     </style>
     <script src="../dist/multi-palette.js"></script>
     <title>Color Palette Tests</title>
@@ -127,13 +133,19 @@
             <div id="base">
                 base
                 <div></div>
-                <div></div>
+                <div>
+                    <br><span class="accent-1-text">Accent Color 1</span>
+                    <br><span class="accent-2-text">Accent Color 2</span>
+                </div>
                 <div></div>
             </div>
             <div id="element">
                 element
                 <div></div>
-                <div></div>
+                <div>
+                    <br><span class="accent-1-text">Accent Color 1</span>
+                    <br><span class="accent-2-text">Accent Color 2</span>
+                </div>
                 <div></div>
             </div>
             <div id="accent1">
