@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body * {
+            color: var(--color-text);
+        }
+        button {
+            background-color: var(--color-accent-1);
+            color: var(--color-text-accent-1);
+            border: 1px solid var(--color-accent-1-1);
+            padding: 6px;
+            border-radius: 6px;
+            font-weight: 650;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: var(--color-accent-1-2);
+            box-shadow: 0px 0px 6px 0px #121212;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        #logos_container {
+            display: flex;
+            flex-direction: row;
+            background-color: var(--color-base);
+        }
+        #colors_container {
+            width: 80vw;
+            height: 50vh;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+        #colors_container > div  {
+            display: grid;
+            grid-template-rows: repeat(3, 1fr);
+            box-sizing: border-box;
+            padding: 8px;
+        }
+        
+        #base > :nth-child(1) {
+            background-color: var(--color-base-1)
+        }
+        #base, #base > :nth-child(2) {
+            background-color: var(--color-base)
+        }
+        #base > :nth-child(3) {
+            background-color: var(--color-base-2)
+        }
+
+        #element > :nth-child(1) {
+            background-color: var(--color-element-1)
+        }
+        #element, #element > :nth-child(2) {
+            background-color: var(--color-element)
+        }
+        #element > :nth-child(3) {
+            background-color: var(--color-element-2)
+        }
+
+        #accent1 * {
+            color: var(--color-text-accent-1);
+        }
+        #accent1 > :nth-child(1) {
+            background-color: var(--color-accent-1-1)
+        }
+        #accent1, #accent1 > :nth-child(2) {
+            background-color: var(--color-accent-1)
+        }
+        #accent1 > :nth-child(3) {
+            background-color: var(--color-accent-1-2)
+        }
+
+        #accent2 > :nth-child(1) {
+            background-color: var(--color-accent-2-1)
+        }
+        #accent2, #accent2 > :nth-child(2) {
+            background-color: var(--color-accent-2)
+        }
+        #accent2 > :nth-child(3) {
+            background-color: var(--color-accent-2-2)
+        }
+
+        
+        #navbar .logo {
+            color: var(--color-text);
+            background-color: var(--color-base);
+        }
+        .logo {
+            color: var(--color-text-accent-1);
+            background-color: var(--color-accent-1);
+        }
+        .icon {
+            width: 24px;
+        }
+
+        #colors_container > * > *::before {
+            content: "Lorem Ipsum";
+        }
+
+    </style>
+    <script src="../dist/multi-palette.js"></script>
+    <title>Color Palette Tests</title>
+</head>
+<body>
+    <div id="container">
+        <div id="logos_container">
+            <div id="navbar">
+                <a class="logo button">Navbar button <img class="icon_after" src="https://static.jpcode.dev/img/icon/github.svg" alt=""></a>
+            </div>
+            <a class="logo button">Normal button <img class="icon_after" src="https://static.jpcode.dev/img/icon/github.svg" alt=""></a>    
+        </div>
+        <button class="swap_palette">Swap Palette</button>
+        <div id="colors_container">
+            <div id="base">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div id="element">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div id="accent1">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div id="accent2">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+</body>
+</html>

@@ -60,13 +60,19 @@ function invertColor(hex) {
     // pad each with zeros and return
     return '#' + padZero(r) + padZero(g) + padZero(b);
 }
-
+function rgbToHex(rgb) {
+    var r = Math.max(0, Math.min(255, parseInt(rgb.r, 16))).toString(16),
+        g = Math.max(0, Math.min(255, parseInt(rgb.g, 16))).toString(16),
+        b = Math.max(0, Math.min(255, parseInt(rgb.b, 16))).toString(16);
+    return '#' + padZero(r) + padZero(g) + padZero(b);
+}
 function padZero(str, len) {
     len = len || 2;
     var zeros = new Array(len).join('0');
     return (zeros + str).slice(-len);
 }
 const colorVariants=(c, varientPercent=0.15)=>{
+    //TODO Currently, bright colors 1st color varients are very visually different
     const out = [];
     out.push(c);
     let lighter = pSBC(varientPercent, c, false, true);
@@ -80,15 +86,62 @@ const colorVariants=(c, varientPercent=0.15)=>{
     }
     return out;
 }
-
+// function objToArr(o) {
+//     return [o.r, o.g, o.b]
+// }
+// function lightnessShift(c, percent_of_255) {
+//     const totalLight = percent_of_255 * 255;
+//     // Pretty sure the * and / 255 cancel here. Just remove after.
+//     // percent of current color that each component is:
+//     c.r += 0.00001;
+//     c.g += 0.00001;
+//     c.b += 0.00001;
+//     const bright = (c.r + c.g + c.b);
+//     const   pr = c.r/bright,
+//             pg = c.g/bright,
+//             pb = c.b/bright;
+//             console.log(c, pr, pg, pb)
+//     return rgbToHex({
+//         r: c.r + (pr * totalLight),
+//         g: c.g + (pg * totalLight),
+//         b: c.b + (pb * totalLight),
+//     });
+// }
+// const colorVariantsNEW=(c, varientPercent=0.15)=>{
+//     //TODO Currently, bright colors 1st color varients are very visually different
+//     const out = [];
+//     out.push(c);
+//     const baseColor = pSBCr(c);
+//     let lighter = lightnessShift(baseColor, varientPercent); //pSBC(varientPercent, c, false, true);
+//     let darker = lightnessShift(baseColor, -1*varientPercent); //pSBC(-1*varientPercent, c, false, true);
+//     if (brightness(c) < 0.5) {
+//         out.push(lighter);
+//         out.push(darker);
+//     } else {
+//         out.push(darker);
+//         out.push(lighter);
+//     }
+//     return out;
+// }
 class BasePalette {
-    constructor (paletteName, base, element1, accent1, accent2, text) {
-        this.paletteName = paletteName;
-        this.base = base;
-        this.element1 = element1;
-        this.accent1 = accent1;
-        this.accent2 = accent2;
-        this.text = text;
+    constructor (paletteName, base, element1, accent1, accent2, text, textAccent1) {
+        if (Array.isArray(paletteName)) {
+            this.paletteName = paletteName[0];
+            this.base = paletteName[1];
+            this.element1 = paletteName[2];
+            this.accent1 = paletteName[3];
+            this.accent2 = paletteName[4];
+            this.text = paletteName[5];
+            this.textAccent1 = paletteName[6];
+        } else {
+            this.paletteName = paletteName;
+            this.base = base;
+            this.element1 = element1;
+            this.accent1 = accent1;
+            this.accent2 = accent2;
+            this.text = text;
+            this.textAccent1 = textAccent1;
+        }
     }
 }
 class ColorPalette {
@@ -104,19 +157,16 @@ class ColorPalette {
         
         this.text = colorVariants(basePalette.text);
         this.textInverse = invertColor(basePalette.text);
+        this.textAccent1 = basePalette.textAccent1;
     }
 }
-var colorPalettes = [//Name     , base     , element-1, accent-1 , accent-2 , text     , text-inverse
-    //  new ColorPalette('Light'   , '#fafafa', '#e0e0e0', '#aaaaaa', '#888888', '#353535', '#d0d0d0')
-    new BasePalette('LYellow' , '#f6f4e6', '#f1eacb', '#f5d232', '#41444b', '#000000', '#ffffff'),
-    new BasePalette('Dark'    , '#252525', '#333333', '#a81f1f', '#888888', '#f0f0f0', '#414141'),
-    new BasePalette('DarkBY'  , '#000000', '#14213d', '#fca311', '#e5e5e5', '#ffffff', '#000000'), //accent #eda126'
-    new BasePalette('DBPink'  , '#1a1a2e', '#16213e', '#e94560', '#0f3460', '#ffffff', '#000000'),
-    new BasePalette('DWarm'   , '#321f28', '#734046', '#e28f36', '#a05344', '#ffffff', '#000000'),
-    new BasePalette('LBlue'   , '#eeeeee', '#d0e0e6', '#64c5e8', '#373a40', '#000000', '#ffffff'),
-    new BasePalette('DPinkG'  , '#382933', '#3b5249', '#e94560', '#0f3460', '#ffffff', '#000000'),
-
-]; //todo load this from external file? or from online library of available palettes?
+var colorPalettes = __PALETTES__; //todo load this from external file? or from online library of available palettes?
+let tempPalettes = [];
+for (const spal of colorPalettes) {
+    tempPalettes.push(new BasePalette(spal))
+}
+colorPalettes = tempPalettes;
+tempPalettes = null;
 
 function bindPaletteSwapButtons(btnElements) {
     if (!btnElements) {
@@ -182,6 +232,7 @@ function displayPalette(paletteID) {
     style.setProperty('--color-text-1',         p.text[1]);
     style.setProperty('--color-text-2',         p.text[2]);
     style.setProperty('--color-text-inverse',   p.textInverse);
+    style.setProperty('--color-text-accent-1',  p.textAccent1);
     // for (let i=0; i<buttonElements.length; i++) {
     //     buttonElements[i].textContent = p.paletteName;
     // }
@@ -230,11 +281,24 @@ function recolorImages(newPalette) {
     } else {
         operation = (el) => el.classList.remove('invert');
     }
+    let operationAccent;
+    if (brightness(newPalette.textAccent1) >= 0.5) {
+        operationAccent = (el) => el.classList.add('invert');
+    } else {
+        operationAccent = (el) => el.classList.remove('invert');
+    }
+
+    const apply = (elem) => {
+        if (elem.matches('#navbar .button') || elem.matches('#navbar .button *'))
+            operation(elem);
+        else
+            operationAccent(elem);
+    }
     for (let i = 0; i < icon_after.length; i++) {
-        operation(icon_after[i]);
+        apply(icon_after[i]);
     }
     for (let i = 0; i < icon.length; i++) {
-        operation(icon[i]);
+        apply(icon[i]);
     }
 }
 
@@ -248,4 +312,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const registerPalette = (paletteName, base, element1, accent1, accent2, text, textInverse) => colorPalettes.push(new BasePalette(paletteName, base, element1, accent1, accent2, text, textInverse))
 
-// export { onPaletteChange, currentPalette, registerPalette };
+export { onPaletteChange, currentPalette, registerPalette };
