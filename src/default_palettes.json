@@ -1,6 +1,6 @@
 {
   "defaults": {
-      "light": 0,
+      "light": 6,
       "dark": 1
   },
   "palettes": [

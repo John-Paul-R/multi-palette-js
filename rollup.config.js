@@ -6,6 +6,8 @@ import replace from '@rollup/plugin-replace';
 import pkg from './package.json';
 import { readFileSync } from 'fs';
 
+const fileData = JSON.stringify(JSON.parse(readFileSync('src/default_palettes.json')));
+
 export default [
 	// browser-friendly UMD build
 	{
@@ -19,26 +21,27 @@ export default [
 				name: 'mpal',
 				file: pkg.browser,
 				format: 'iife',
-				plugins: [terser({module: false, mangle: true})] 
+				plugins: [terser({ module: false, mangle: true })]
 			},
 			{ file: pkg.main, format: 'cjs' },
 			{ file: pkg.module, format: 'es' },
 		],
 		plugins: [
 			replace({
-				'__PALETTES__': JSON.stringify(JSON.parse(readFileSync('src/default_palettes.json')).palettes),
-			})
+				'__PALETTES__': JSON.stringify(fileData.palettes),
+				'__DEFAULT_PALLETE_INDICIES__': JSON.stringify(fileData.defaults),
+			}),
 		],
 	},
 
 	// },
-    // {
+	// {
 	// 	input: 'src/multi-palette.js',
 	// 	output: {
 	// 		name: 'mpal',
 	// 		file: pkg.browser,
 	// 		format: 'iife',
-    //         plugins: [terser({module: false, mangle: true})] 
+	//         plugins: [terser({module: false, mangle: true})] 
 	// 	},
 	// },
 
@@ -57,7 +60,7 @@ export default [
 	// 		{ file: pkg.module, format: 'es' }
 	// 	]
 	// },
-    // {
+	// {
 	// 	input: 'src/multi-palette.js',
 	// 	// external: ['ms'],
 	// 	output: [
