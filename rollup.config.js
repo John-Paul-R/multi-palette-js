@@ -6,7 +6,7 @@ import replace from '@rollup/plugin-replace';
 import pkg from './package.json';
 import { readFileSync } from 'fs';
 
-const fileData = JSON.stringify(JSON.parse(readFileSync('src/default_palettes.json')));
+const fileData = JSON.parse(readFileSync('src/default_palettes.json'));
 
 export default [
 	// browser-friendly UMD build

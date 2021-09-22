@@ -163,12 +163,7 @@ class ColorPalette {
 }
 var colorPalettes = __PALETTES__; //todo load this from external file? or from online library of available palettes?
 var defaultPaletteIndicies = __DEFAULT_PALLETE_INDICIES__;
-let tempPalettes = [];
-for (const spal of colorPalettes) {
-    tempPalettes.push(new BasePalette(spal))
-}
-colorPalettes = tempPalettes;
-tempPalettes = null;
+colorPalettes = colorPalettes.map(p => new BasePalette(p));
 
 function bindPaletteSwapButtons(btnElements) {
     if (!btnElements) {
@@ -291,7 +286,7 @@ function recolorImages(newPalette) {
     }
 
     const apply = (elem) => {
-        if (elem.matches('#navbar .button') || elem.matches('#navbar .button *'))
+        if (elem.matches('#navbar .button') || elem.matches('#navbar .button *') || elem.matches('.icon.base'))
             operation(elem);
         else
             operationAccent(elem);
@@ -314,4 +309,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const registerPalette = (paletteName, base, element1, accent1, accent2, text, textInverse) => colorPalettes.push(new BasePalette(paletteName, base, element1, accent1, accent2, text, textInverse))
 
-export { onPaletteChange, currentPalette, registerPalette };
+function setPalette(index) {
+    if (index >= colorPalettes.length)
+        return -1;
+    displayPalette(index);
+    window.localStorage.setItem(STORAGE_KEY, index);
+    for (const func of changeFuncs) {
+        func(currentPalette);
+    }
+
+}
+
+export { onPaletteChange, currentPalette, registerPalette, setPalette, };//refreshPalette
