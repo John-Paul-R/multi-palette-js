@@ -262,6 +262,9 @@ function initStyleSheet() {
     sheet.insertRule(`.invert {
         filter: invert(100%);
     }`);
+    sheet.insertRule(`.icon_dark {
+        filter: invert(var(--multi-palette-invert));
+    }`); // <- this is set on palette change.
 }
 
 /**
@@ -275,8 +278,10 @@ function recolorImages(newPalette) {
     let operation;
     if (brightness(newPalette.text[0]) >= 0.5) {
         operation = (el) => el.classList.add('invert');
+        document.documentElement.style.setProperty('--multi-palette-invert', '100%'); // inverts dark things
     } else {
         operation = (el) => el.classList.remove('invert');
+        document.documentElement.style.setProperty('--multi-palette-invert', '0%');
     }
     let operationAccent;
     if (brightness(newPalette.textAccent1) >= 0.5) {
@@ -304,6 +309,7 @@ initStyleSheet();
 document.addEventListener('DOMContentLoaded', () => {
     recolorImages(currentPalette);
     bindPaletteSwapButtons();
+    displayPalette(paletteIndex);
 });
 
 
