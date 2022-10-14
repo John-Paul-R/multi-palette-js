@@ -326,4 +326,4 @@ function setPalette(index) {
 
 }
 
-export { onPaletteChange, currentPalette, registerPalette, setPalette, };//refreshPalette
+export { onPaletteChange, currentPalette, paletteIndex as currentPaletteIndex, registerPalette, setPalette, };//refreshPalette
