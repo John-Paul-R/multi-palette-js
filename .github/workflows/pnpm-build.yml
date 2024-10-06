@@ -22,16 +22,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
 
-            - name: Upload a Build Artifact
-  uses: actions/upload-artifact@v3.2.1-node20
-  with:
-    name: artifact
-    path: ./dist/*
-    if-no-files-found: error
-    # Duration after which artifact will expire in days. 0 means using default retention.
-    # Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
-    retention-days: 30
-    include-hidden-files: true
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.2.1-node20
+        with:
+          name: artifact
+          path: ./dist/*
+          if-no-files-found: error
+          # Duration after which artifact will expire in days. 0 means using default retention.
+          # Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
+          retention-days: 30
+          include-hidden-files: true
           
   # publish-gpr:
   #   needs: build
