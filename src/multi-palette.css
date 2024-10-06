@@ -1,0 +1,14 @@
+
+.github.invert::before {
+    filter: invert(100%);
+}
+.github.invert {
+    filter: none;
+}
+.invert {
+    filter: invert(100%);
+}
+.icon_dark {
+    filter: invert(var(--multi-palette-invert)); /* <- this is set on palette change. */
+}
+

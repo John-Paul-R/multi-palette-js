@@ -1,3 +1,5 @@
+import css from './multi-palette.css' assert { type: 'css' };
+document.adoptedStyleSheets?.push(css);
 
 /*! Shade/blend hex colors (for more info, see: https://github.com/PimpTrizkit/PJs/wiki/12.-Shade,-Blend-and-Convert-a-Web-Color-(pSBC.js) )*/
 const pSBCr = (d) => {
@@ -250,23 +252,6 @@ function createStyleSheet(id, media) {
     return el.sheet;
 }
 
-function initStyleSheet() {
-    const sheet = createStyleSheet('palette_light_dark');
-    sheet.insertRule(
-        `.github.invert::before {
-        filter: invert(100%);
-    }`);
-    sheet.insertRule(`.github.invert {
-        filter: none;
-    }`);
-    sheet.insertRule(`.invert {
-        filter: invert(100%);
-    }`);
-    sheet.insertRule(`.icon_dark {
-        filter: invert(var(--multi-palette-invert));
-    }`); // <- this is set on palette change.
-}
-
 /**
  * 
  * @param {ColorPalette} newPalette 
@@ -305,7 +290,6 @@ function recolorImages(newPalette) {
 }
 
 loadStoredPalette();
-initStyleSheet();
 document.addEventListener('DOMContentLoaded', () => {
     recolorImages(currentPalette);
     bindPaletteSwapButtons();
